@@ -265,8 +265,8 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Content Overlay */}
-        <div className="relative z-10 max-w-5xl mx-auto">
+        {/* Content Overlay - pointer-events-none allows hover to pass through to flip cards */}
+        <div className="relative z-10 max-w-5xl mx-auto pointer-events-none">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
