@@ -161,7 +161,7 @@ export default function Home() {
             </motion.div>
 
             {/* Scroll Indicator */}
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
@@ -175,7 +175,7 @@ export default function Home() {
                 <span className="text-xs uppercase tracking-widest">Scroll</span>
                 <ArrowDown size={20} />
               </motion.div>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </section>

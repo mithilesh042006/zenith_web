@@ -80,23 +80,26 @@ export default function AnimatedBackground() {
                 height / 2,
                 Math.max(width, height) * 0.8
             );
-            gradient.addColorStop(0, "#1a1a1f");
-            gradient.addColorStop(0.5, "#0F0F14");
-            gradient.addColorStop(1, "#0a0a0f");
+            // gradient.addColorStop(0, "#1a1a1f");
+            // gradient.addColorStop(0.5, "#0F0F14");
+            // gradient.addColorStop(1, "#0a0a0f");
+            gradient.addColorStop(0, "#000000ff");
+            gradient.addColorStop(0.5, "#000000ff");
+            gradient.addColorStop(1, "#000000ff");
 
             baseCtx.fillStyle = gradient;
             baseCtx.fillRect(0, 0, width, height);
 
             // Subtle noise overlay
-            const imageData = baseCtx.getImageData(0, 0, width, height);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                const noise = (Math.random() - 0.5) * 10;
-                data[i] = Math.max(0, Math.min(255, data[i] + noise));
-                data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise));
-                data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise));
-            }
-            baseCtx.putImageData(imageData, 0, 0);
+            // const imageData = baseCtx.getImageData(0, 0, width, height);
+            // const data = imageData.data;
+            // for (let i = 0; i < data.length; i += 4) {
+            //     const noise = (Math.random() - 0.5) * 10;
+            //     data[i] = Math.max(0, Math.min(255, data[i] + noise));
+            //     data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + noise));
+            //     data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + noise));
+            // }
+            // baseCtx.putImageData(imageData, 0, 0);
         };
 
         // Draw foreground - particles and light streaks
