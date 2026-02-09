@@ -27,14 +27,14 @@ export default function EventCard({
 }: EventCardProps) {
     const categoryColors = {
         technical: {
-            gradient: "from-highlight-red to-accent-orange",
-            glow: "hover:shadow-highlight-red/20",
-            border: "hover:border-highlight-red/30",
+            gradient: "from-royal-gold to-gold-light",
+            glow: "hover:shadow-royal-gold/20",
+            border: "hover:border-royal-gold/30",
         },
         "non-technical": {
-            gradient: "from-accent-orange to-yellow-500",
-            glow: "hover:shadow-accent-orange/20",
-            border: "hover:border-accent-orange/30",
+            gradient: "from-blood-red to-royal-gold",
+            glow: "hover:shadow-blood-red/20",
+            border: "hover:border-blood-red/30",
         },
     };
 
@@ -54,13 +54,13 @@ export default function EventCard({
                     {/* Category Badge */}
                     <div className="flex items-center justify-between mb-4">
                         <span
-                            className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${colors.gradient} text-white`}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${colors.gradient} text-black`}
                         >
                             {category === "technical" ? "Technical" : "Non-Technical"}
                         </span>
                         <ArrowRight
                             size={18}
-                            className="text-neutral-light/40 group-hover:text-accent-orange group-hover:translate-x-1 transition-all"
+                            className="text-neutral-light/40 group-hover:text-royal-gold group-hover:translate-x-1 transition-all"
                         />
                     </div>
 
@@ -78,19 +78,19 @@ export default function EventCard({
                     <div className="flex flex-wrap gap-3 mt-auto pt-4 border-t border-white/5">
                         {date && (
                             <div className="flex items-center gap-1.5 text-xs text-neutral-light/50">
-                                <Calendar size={14} className="text-highlight-red" />
+                                <Calendar size={14} className="text-royal-gold" />
                                 {date}
                             </div>
                         )}
                         {venue && (
                             <div className="flex items-center gap-1.5 text-xs text-neutral-light/50">
-                                <MapPin size={14} className="text-highlight-red" />
+                                <MapPin size={14} className="text-royal-gold" />
                                 {venue}
                             </div>
                         )}
                         {teamSize && (
                             <div className="flex items-center gap-1.5 text-xs text-neutral-light/50">
-                                <Users size={14} className="text-highlight-red" />
+                                <Users size={14} className="text-royal-gold" />
                                 {teamSize}
                             </div>
                         )}

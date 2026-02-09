@@ -62,7 +62,7 @@ export default function AnimatedBackground() {
                 vy: (Math.random() - 0.5) * 0.5,
                 size: Math.random() * 2 + 1,
                 opacity: Math.random() * 0.5 + 0.1,
-                color: Math.random() > 0.5 ? "#D73A2D" : "#FF6A2A",
+                color: Math.random() > 0.7 ? "#D73A2F" : "#D4AF37",
             }));
         };
 
@@ -137,7 +137,7 @@ export default function AnimatedBackground() {
                 const x = (Math.sin(time + i) * 0.5 + 0.5) * width;
                 const gradient = fgCtx.createLinearGradient(x - 200, 0, x + 200, height);
                 gradient.addColorStop(0, "transparent");
-                gradient.addColorStop(0.5, "#D73A2D");
+                gradient.addColorStop(0.5, "#D4AF37");
                 gradient.addColorStop(1, "transparent");
                 fgCtx.fillStyle = gradient;
                 fgCtx.fillRect(x - 200, 0, 400, height);

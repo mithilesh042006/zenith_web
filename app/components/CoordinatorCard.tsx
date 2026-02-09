@@ -27,14 +27,14 @@ export default function CoordinatorCard({
 }: CoordinatorCardProps) {
     const typeStyles = {
         staff: {
-            accent: "from-highlight-red to-accent-orange",
-            border: "hover:border-highlight-red/30",
-            glow: "group-hover:shadow-highlight-red/10",
+            accent: "from-royal-gold to-gold-light",
+            border: "hover:border-royal-gold/30",
+            glow: "group-hover:shadow-royal-gold/10",
         },
         student: {
-            accent: "from-accent-orange to-yellow-500",
-            border: "hover:border-accent-orange/30",
-            glow: "group-hover:shadow-accent-orange/10",
+            accent: "from-blood-red to-royal-gold",
+            border: "hover:border-blood-red/30",
+            glow: "group-hover:shadow-blood-red/10",
         },
     };
 
@@ -97,19 +97,19 @@ export default function CoordinatorCard({
                             {email && (
                                 <a
                                     href={`mailto:${email}`}
-                                    className="p-2 rounded-full glass hover:border-highlight-red/30 transition-colors"
+                                    className="p-2 rounded-full glass hover:border-royal-gold/30 transition-colors"
                                     aria-label={`Email ${name}`}
                                 >
-                                    <Mail size={16} className="text-neutral-light/60 hover:text-highlight-red" />
+                                    <Mail size={16} className="text-neutral-light/60 hover:text-royal-gold" />
                                 </a>
                             )}
                             {phone && (
                                 <a
                                     href={`tel:${phone}`}
-                                    className="p-2 rounded-full glass hover:border-highlight-red/30 transition-colors"
+                                    className="p-2 rounded-full glass hover:border-royal-gold/30 transition-colors"
                                     aria-label={`Call ${name}`}
                                 >
-                                    <Phone size={16} className="text-neutral-light/60 hover:text-highlight-red" />
+                                    <Phone size={16} className="text-neutral-light/60 hover:text-royal-gold" />
                                 </a>
                             )}
                         </div>

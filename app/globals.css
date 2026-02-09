@@ -1,24 +1,26 @@
 @import "tailwindcss";
 
 /* ========================================
-   ZENITH'26 - Cinematic Dark Theme
+   ZENITH'26 - Royal Gold Theme
    ======================================== */
 
 :root {
   /* Core Color Palette */
-  --primary-black: #0F0F14;
-  --deep-charcoal: #141414;
-  --highlight-red: #D73A2D;
-  --accent-orange: #FF6A2A;
-  --neutral-light: #EDEDED;
-  
+  --primary-black: #000000;
+  --deep-charcoal: #0a0a0a;
+  --royal-gold: #D4AF37;
+  --gold-light: #E8C965;
+  --gold-dark: #B8960F;
+  --blood-red: #D73A2F;
+  --neutral-light: #F5F5F5;
+
   /* Semantic Colors */
   --background: var(--primary-black);
   --foreground: var(--neutral-light);
-  --card-bg: rgba(20, 20, 20, 0.8);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --glow-red: rgba(215, 58, 45, 0.4);
-  --glow-orange: rgba(255, 106, 42, 0.4);
+  --card-bg: rgba(10, 10, 10, 0.9);
+  --card-border: rgba(212, 175, 55, 0.15);
+  --glow-gold: rgba(212, 175, 55, 0.4);
+  --glow-red: rgba(215, 58, 47, 0.4);
 }
 
 @theme inline {
@@ -26,8 +28,9 @@
   --color-foreground: var(--foreground);
   --color-primary-black: var(--primary-black);
   --color-deep-charcoal: var(--deep-charcoal);
-  --color-highlight-red: var(--highlight-red);
-  --color-accent-orange: var(--accent-orange);
+  --color-royal-gold: var(--royal-gold);
+  --color-gold-light: var(--gold-light);
+  --color-blood-red: var(--blood-red);
   --color-neutral-light: var(--neutral-light);
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
@@ -63,7 +66,14 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--highlight-red) 0%, var(--accent-orange) 100%);
+  background: linear-gradient(135deg, var(--royal-gold) 0%, var(--gold-light) 50%, var(--royal-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-red {
+  background: linear-gradient(135deg, var(--blood-red) 0%, #FF6A4A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -97,7 +107,7 @@ body {
 /* Smooth transitions */
 .transition-smooth {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ========================================
@@ -105,10 +115,10 @@ body {
    ======================================== */
 
 .glass {
-  background: rgba(15, 15, 20, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .glass-card {
@@ -123,19 +133,24 @@ body {
    Glow Effects
    ======================================== */
 
-.glow-red {
-  box-shadow: 0 0 30px var(--glow-red),
-              0 0 60px var(--glow-red);
+.glow-gold {
+  box-shadow: 0 0 30px var(--glow-gold),
+    0 0 60px var(--glow-gold);
 }
 
-.glow-orange {
-  box-shadow: 0 0 30px var(--glow-orange),
-              0 0 60px var(--glow-orange);
+.glow-red {
+  box-shadow: 0 0 30px var(--glow-red),
+    0 0 60px var(--glow-red);
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 20px var(--glow-gold),
+    0 0 40px var(--glow-gold);
 }
 
 .text-glow-red {
   text-shadow: 0 0 20px var(--glow-red),
-               0 0 40px var(--glow-red);
+    0 0 40px var(--glow-red);
 }
 
 /* ========================================
@@ -156,7 +171,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--highlight-red);
+  background: var(--royal-gold);
 }
 
 /* ========================================
@@ -164,6 +179,7 @@ body {
    ======================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -172,7 +188,7 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   .kinetic-text {
     animation: none !important;
   }
@@ -183,6 +199,6 @@ body {
    ======================================== */
 
 ::selection {
-  background: var(--highlight-red);
-  color: var(--neutral-light);
+  background: var(--royal-gold);
+  color: var(--primary-black);
 }

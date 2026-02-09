@@ -47,7 +47,7 @@ export default function Navbar() {
                             className="text-sm font-medium text-neutral-light/70 hover:text-neutral-light transition-colors relative group"
                         >
                             {link.label}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-highlight-red to-accent-orange group-hover:w-full transition-all duration-300" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-royal-gold to-gold-light group-hover:w-full transition-all duration-300" />
                         </Link>
                     ))}
                 </div>
@@ -56,7 +56,7 @@ export default function Navbar() {
                 <div className="hidden lg:block">
                     <Link
                         href="/contact"
-                        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-highlight-red to-accent-orange text-white font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-highlight-red/30"
+                        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
                     >
                         Register Now
                     </Link>
@@ -96,7 +96,7 @@ export default function Navbar() {
                             <Link
                                 href="/contact"
                                 onClick={() => setIsOpen(false)}
-                                className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-highlight-red to-accent-orange text-white font-semibold text-center transition-all duration-300 hover:scale-105"
+                                className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-center transition-all duration-300 hover:scale-105"
                             >
                                 Register Now
                             </Link>

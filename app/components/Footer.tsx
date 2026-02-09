@@ -47,15 +47,15 @@ export default function Footer() {
                         </h4>
                         <ul className="space-y-3">
                             <li className="flex items-center gap-3 text-neutral-light/60 text-sm">
-                                <Mail size={16} className="text-highlight-red" />
+                                <Mail size={16} className="text-royal-gold" />
                                 zenith@jeppiaar.ac.in
                             </li>
                             <li className="flex items-center gap-3 text-neutral-light/60 text-sm">
-                                <Phone size={16} className="text-highlight-red" />
+                                <Phone size={16} className="text-royal-gold" />
                                 +91 98765 43210
                             </li>
                             <li className="flex items-start gap-3 text-neutral-light/60 text-sm">
-                                <MapPin size={16} className="text-highlight-red mt-0.5" />
+                                <MapPin size={16} className="text-royal-gold mt-0.5" />
                                 <span>
                                     Jeppiaar Engineering College,<br />
                                     Chennai, Tamil Nadu
@@ -79,7 +79,7 @@ export default function Footer() {
                                     key={social.label}
                                     href={social.href}
                                     aria-label={social.label}
-                                    className="w-10 h-10 rounded-full glass flex items-center justify-center text-neutral-light/60 hover:text-accent-orange hover:border-accent-orange/50 transition-all duration-300"
+                                    className="w-10 h-10 rounded-full glass flex items-center justify-center text-neutral-light/60 hover:text-royal-gold hover:border-royal-gold/50 transition-all duration-300"
                                 >
                                     <social.icon size={18} />
                                 </a>

@@ -148,7 +148,7 @@ export default function Home() {
             >
               <Link
                 href="/technical-events"
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-highlight-red to-accent-orange text-white font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-highlight-red/30"
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
               >
                 Explore Events
               </Link>
