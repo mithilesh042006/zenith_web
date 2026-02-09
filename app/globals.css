@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* ========================================
+   ZENITH'26 - Cinematic Dark Theme
+   ======================================== */
+
+:root {
+  /* Core Color Palette */
+  --primary-black: #0F0F14;
+  --deep-charcoal: #141414;
+  --highlight-red: #D73A2D;
+  --accent-orange: #FF6A2A;
+  --neutral-light: #EDEDED;
+  
+  /* Semantic Colors */
+  --background: var(--primary-black);
+  --foreground: var(--neutral-light);
+  --card-bg: rgba(20, 20, 20, 0.8);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --glow-red: rgba(215, 58, 45, 0.4);
+  --glow-orange: rgba(255, 106, 42, 0.4);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-black: var(--primary-black);
+  --color-deep-charcoal: var(--deep-charcoal);
+  --color-highlight-red: var(--highlight-red);
+  --color-accent-orange: var(--accent-orange);
+  --color-neutral-light: var(--neutral-light);
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--highlight-red) 0%, var(--accent-orange) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Kinetic Typography - Large scale hero text */
+.kinetic-text {
+  font-size: clamp(8rem, 35vw, 40vh);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Tabular numbers for countdown */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+   Animation Utilities
+   ======================================== */
+
+/* GPU-accelerated animations only */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   Glass Morphism
+   ======================================== */
+
+.glass {
+  background: rgba(15, 15, 20, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+}
+
+/* ========================================
+   Glow Effects
+   ======================================== */
+
+.glow-red {
+  box-shadow: 0 0 30px var(--glow-red),
+              0 0 60px var(--glow-red);
+}
+
+.glow-orange {
+  box-shadow: 0 0 30px var(--glow-orange),
+              0 0 60px var(--glow-orange);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 20px var(--glow-red),
+               0 0 40px var(--glow-red);
+}
+
+/* ========================================
+   Custom Scrollbar
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--deep-charcoal);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--highlight-red);
+}
+
+/* ========================================
+   Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .kinetic-text {
+    animation: none !important;
+  }
+}
+
+/* ========================================
+   Selection
+   ======================================== */
+
+::selection {
+  background: var(--highlight-red);
+  color: var(--neutral-light);
+}
