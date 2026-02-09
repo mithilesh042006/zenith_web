@@ -17,6 +17,79 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// FlipCard component for About section background
+function FlipCard({ index }: { index: number }) {
+  return (
+    <motion.div
+      className="relative aspect-square perspective-1000"
+      whileHover="flipped"
+      initial="closed"
+    >
+      <motion.div
+        className="relative w-full h-full"
+        style={{ transformStyle: "preserve-3d" }}
+        variants={{
+          closed: { rotateY: 0 },
+          flipped: { rotateY: 180 },
+        }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+      >
+        {/* Front - Closed card */}
+        <div
+          className="absolute inset-0 rounded-lg bg-[#0a0a0a] border border-white/5 backface-hidden"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-8 h-8 rounded border border-white/10" />
+          </div>
+        </div>
+
+        {/* Back - Image revealed */}
+        <div
+          className="absolute inset-0 rounded-lg overflow-hidden backface-hidden"
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
+        >
+          <img
+            src="/default.jpg"
+            alt="Event"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+          {/* Circular text overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="w-20 h-20 relative"
+            >
+              <svg viewBox="0 0 100 100" className="w-full h-full">
+                <defs>
+                  <path
+                    id={`circle-${index}`}
+                    d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"
+                  />
+                </defs>
+                <text fill="#D4AF37" fontSize="8" fontWeight="bold">
+                  <textPath href={`#circle-${index}`}>
+                    RISE • REVEL • RUSH • RISE • REVEL • RUSH •
+                  </textPath>
+                </text>
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-royal-gold" />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -180,44 +253,69 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section with Flip Card Background */}
       <section
         ref={aboutRef}
-        className="relative py-32 px-6"
+        className="relative py-32 px-6 overflow-hidden"
       >
-        <div className="max-w-4xl mx-auto">
+        {/* Flip Card Grid Background */}
+        <div className="absolute inset-0 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 opacity-60">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <FlipCard key={i} index={i} />
+          ))}
+        </div>
+
+        {/* Content Overlay */}
+        <div className="relative z-10 max-w-5xl mx-auto">
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-8"
+            className="mb-12 text-center"
           >
-            <span className="text-sm uppercase tracking-[0.3em] text-accent-orange">
+            <span className="inline-block px-4 py-2 rounded-full glass text-xs uppercase tracking-[0.3em] text-royal-gold border border-royal-gold/20">
               About the Event
             </span>
           </motion.div>
 
-          <div className="space-y-6 text-3xl md:text-4xl lg:text-5xl font-display leading-tight">
-            <div className="overflow-hidden">
-              <p className="reveal-line text-neutral-light">
-                ZENITH&apos;26 is the flagship technical symposium
-              </p>
-            </div>
-            <div className="overflow-hidden">
-              <p className="reveal-line text-neutral-light/80">
-                of Jeppiaar Engineering College,
-              </p>
-            </div>
-            <div className="overflow-hidden">
-              <p className="reveal-line text-neutral-light/60">
-                bringing together brilliant minds
-              </p>
-            </div>
-            <div className="overflow-hidden">
-              <p className="reveal-line text-gradient">
-                to innovate, compete, and celebrate technology.
-              </p>
-            </div>
+          <div className="text-center space-y-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight"
+            >
+              <span className="text-neutral-light">Where </span>
+              <span className="text-gradient">Innovation</span>
+              <span className="text-neutral-light"> Meets </span>
+              <span className="text-gradient">Excellence</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-lg md:text-xl text-neutral-light/70 max-w-3xl mx-auto leading-relaxed"
+            >
+              ZENITH&apos;26 is the flagship technical symposium of Jeppiaar Engineering College,
+              uniting the brightest minds from across the nation. Experience two days of intense
+              competition, groundbreaking ideas, and limitless opportunities to showcase your talent.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-4 text-sm text-neutral-light/50"
+            >
+              {["🚀 Technical Events", "🎭 Cultural Events", "🏆 Mega Prizes", "🤝 Networking"].map((item, i) => (
+                <span key={i} className="px-4 py-2 glass rounded-full border border-white/5">
+                  {item}
+                </span>
+              ))}
+            </motion.div>
           </div>
 
           <motion.div
@@ -225,20 +323,27 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
           >
             {[
-              { number: "20+", label: "Events" },
-              { number: "5K+", label: "Participants" },
-              { number: "₹2L+", label: "Prize Pool" },
-              { number: "50+", label: "Colleges" },
+              { number: "20+", label: "Events", icon: "🎯" },
+              { number: "5000+", label: "Participants", icon: "👥" },
+              { number: "₹2L+", label: "Prize Pool", icon: "💰" },
+              { number: "50+", label: "Colleges", icon: "🎓" },
             ].map((stat, i) => (
-              <div key={i} className="glass-card p-6 text-center">
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="glass-card p-6 text-center group cursor-pointer border border-white/5 hover:border-royal-gold/30 transition-all duration-300"
+              >
+                <span className="text-2xl mb-2 block">{stat.icon}</span>
                 <p className="text-3xl md:text-4xl font-bold font-display text-gradient">
                   {stat.number}
                 </p>
-                <p className="text-sm text-neutral-light/60 mt-2">{stat.label}</p>
-              </div>
+                <p className="text-sm text-neutral-light/60 mt-2 group-hover:text-royal-gold transition-colors">
+                  {stat.label}
+                </p>
+              </motion.div>
             ))}
           </motion.div>
         </div>
