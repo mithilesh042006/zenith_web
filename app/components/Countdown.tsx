@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface TimeLeft {
@@ -11,12 +11,15 @@ interface TimeLeft {
 }
 
 interface CountdownProps {
-    targetDate?: Date;
+    targetDate?: string;
     className?: string;
 }
 
+// Default target date as string to avoid reference issues
+const DEFAULT_TARGET_DATE = "2026-03-15T09:00:00";
+
 export default function Countdown({
-    targetDate = new Date("2026-03-15T09:00:00"),
+    targetDate = DEFAULT_TARGET_DATE,
     className = "",
 }: CountdownProps) {
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({
@@ -26,13 +29,17 @@ export default function Countdown({
         seconds: 0,
     });
     const [mounted, setMounted] = useState(false);
-    const prevTimeRef = useRef<TimeLeft>(timeLeft);
+
+    // Memoize the target date to prevent reference changes
+    const targetTimestamp = useMemo(() => {
+        return new Date(targetDate).getTime();
+    }, [targetDate]);
 
     useEffect(() => {
         setMounted(true);
 
         const calculateTimeLeft = (): TimeLeft => {
-            const difference = targetDate.getTime() - new Date().getTime();
+            const difference = targetTimestamp - Date.now();
 
             if (difference <= 0) {
                 return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -46,15 +53,16 @@ export default function Countdown({
             };
         };
 
+        // Initial calculation
         setTimeLeft(calculateTimeLeft());
 
+        // Update every second
         const timer = setInterval(() => {
-            prevTimeRef.current = timeLeft;
             setTimeLeft(calculateTimeLeft());
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [targetDate, timeLeft]);
+    }, [targetTimestamp]);
 
     if (!mounted) {
         return (
