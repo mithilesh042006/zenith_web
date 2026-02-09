@@ -259,8 +259,8 @@ export default function Home() {
         className="relative py-32 px-6 overflow-hidden"
       >
         {/* Flip Card Grid Background */}
-        <div className="absolute inset-0 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 opacity-60">
-          {Array.from({ length: 20 }).map((_, i) => (
+        <div className="absolute inset-0 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-1 opacity-60 content-start">
+          {Array.from({ length: 15 }).map((_, i) => (
             <FlipCard key={i} index={i} />
           ))}
         </div>
