@@ -104,7 +104,7 @@ export default function Home() {
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
-        end: "+=100%",
+        end: "+=20%",
         pin: heroContentRef.current,
         pinSpacing: false,
       });
@@ -145,8 +145,8 @@ export default function Home() {
     <main className="relative">
       <AnimatedBackground />
 
-      {/* Hero Section - 200vh for scroll pinning */}
-      <section ref={heroRef} className="relative min-h-[200vh]">
+      {/* Hero Section - reduced height for less gap */}
+      <section ref={heroRef} className="relative min-h-[120vh]">
         <div
           ref={heroContentRef}
           className="h-screen flex flex-col items-center justify-center relative"
