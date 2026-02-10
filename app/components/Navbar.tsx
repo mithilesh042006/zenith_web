@@ -55,7 +55,7 @@ export default function Navbar() {
                 {/* Register Button - Desktop */}
                 <div className="hidden lg:block">
                     <Link
-                        href="/contact"
+                        href="/events"
                         className="px-6 py-2.5 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
                     >
                         Register Now
@@ -94,7 +94,7 @@ export default function Navbar() {
                                 </Link>
                             ))}
                             <Link
-                                href="/contact"
+                                href="/events"
                                 onClick={() => setIsOpen(false)}
                                 className="mt-4 px-6 py-3 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-center transition-all duration-300 hover:scale-105"
                             >

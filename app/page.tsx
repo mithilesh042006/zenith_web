@@ -175,11 +175,11 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="flex items-center justify-center gap-2 mb-6"
             >
-              <Sparkles size={18} className="text-accent-orange" />
+              {/* <Sparkles size={18} className="text-accent-orange" /> */}
               <span className="text-sm md:text-base uppercase tracking-[0.3em] text-neutral-light/60">
-                Jeppiaar Engineering College presents
+                Computer Science And Engineering presents
               </span>
-              <Sparkles size={18} className="text-accent-orange" />
+              {/* <Sparkles size={18} className="text-accent-orange" /> */}
             </motion.div>
 
             {/* Main Title */}
@@ -220,7 +220,7 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
-                href="/technical-events"
+                href="/events"
                 className="px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
               >
                 Explore Events
@@ -229,7 +229,7 @@ export default function Home() {
                 href="/contact"
                 className="px-8 py-4 rounded-full glass text-neutral-light font-semibold text-lg transition-all duration-300 hover:bg-white/10"
               >
-                Register Now
+                Contact Us
               </Link>
             </motion.div>
 
@@ -397,7 +397,7 @@ export default function Home() {
             >
               <Link href="/non-technical-events" className="block group">
                 <div className="glass-card p-8 md:p-12 h-full transition-all duration-300 hover:shadow-xl hover:shadow-accent-orange/10 hover:border-accent-orange/30">
-                  <div className="h-2 w-16 bg-gradient-to-r from-accent-orange to-yellow-500 rounded-full mb-6" />
+                  <div className="h-8.5 w-16 bg-gradient-to-r from-accent-orange to-yellow-500 rounded-full mb-6" />
                   <h3 className="text-2xl md:text-3xl font-bold font-display text-neutral-light mb-4 group-hover:text-gradient transition-all">
                     Non-Technical Events
                   </h3>
@@ -438,7 +438,7 @@ export default function Home() {
               Join thousands of innovators at ZENITH&apos;26. Register now and be part of the biggest technical symposium of the year.
             </p>
             <Link
-              href="/contact"
+              href="/events"
               className="inline-block px-12 py-5 rounded-full bg-gradient-to-r from-highlight-red to-accent-orange text-white font-bold text-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-highlight-red/30"
             >
               Register Now

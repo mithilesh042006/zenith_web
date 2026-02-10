@@ -16,7 +16,7 @@ interface CountdownProps {
 }
 
 // Default target date as string to avoid reference issues
-const DEFAULT_TARGET_DATE = "2026-03-15T09:00:00";
+const DEFAULT_TARGET_DATE = "2026-03-04T09:00:00";
 
 export default function Countdown({
     targetDate = DEFAULT_TARGET_DATE,
