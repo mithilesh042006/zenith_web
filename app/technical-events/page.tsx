@@ -1,70 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
 import AnimatedBackground from "../components/AnimatedBackground";
-
-const technicalEvents = [
-    {
-        title: "Code Sprint",
-        description: "A 3-hour competitive programming challenge where participants solve algorithmic problems against the clock. Test your logic and coding efficiency.",
-        date: "March 15, 2026",
-        venue: "Lab Complex",
-        teamSize: "1-2 members",
-    },
-    {
-        title: "Hackathon",
-        description: "Build innovative solutions to real-world problems in this 24-hour coding marathon. Pitch your prototype to industry experts.",
-        date: "March 15-16, 2026",
-        venue: "Seminar Hall",
-        teamSize: "3-4 members",
-    },
-    {
-        title: "Debug It",
-        description: "Find and fix bugs in complex code snippets. Race against time and other teams to debug the most code correctly.",
-        date: "March 15, 2026",
-        venue: "Lab 1",
-        teamSize: "2 members",
-    },
-    {
-        title: "Paper Presentation",
-        description: "Present your research papers on emerging technologies. Showcase your knowledge and communication skills to a panel of experts.",
-        date: "March 16, 2026",
-        venue: "Conference Hall",
-        teamSize: "1-2 members",
-    },
-    {
-        title: "Web Design Challenge",
-        description: "Design and develop a responsive website on a given theme within the time limit. Creativity and functionality both count.",
-        date: "March 15, 2026",
-        venue: "Lab 2",
-        teamSize: "2 members",
-    },
-    {
-        title: "Circuit Design",
-        description: "Design and simulate electronic circuits to solve given problems. Perfect for electronics enthusiasts.",
-        date: "March 16, 2026",
-        venue: "ECE Lab",
-        teamSize: "2-3 members",
-    },
-    {
-        title: "Quiz Wizard",
-        description: "Test your technical knowledge across various domains including programming, networks, databases, and more.",
-        date: "March 15, 2026",
-        venue: "Auditorium",
-        teamSize: "2 members",
-    },
-    {
-        title: "Robo Race",
-        description: "Build and race your robot through a challenging obstacle course. Speed and precision win the race.",
-        date: "March 16, 2026",
-        venue: "Ground Floor",
-        teamSize: "3-4 members",
-    },
-];
+import { onEventsChange } from "@/lib/firebase/firestore";
+import { EventData } from "@/types/event";
 
 export default function TechnicalEventsPage() {
+    const [events, setEvents] = useState<EventData[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsub = onEventsChange((evts) => {
+            setEvents(evts);
+            setLoading(false);
+        }, "technical");
+        return () => unsub();
+    }, []);
+
     return (
         <main className="min-h-screen relative">
             <AnimatedBackground />
@@ -92,20 +47,31 @@ export default function TechnicalEventsPage() {
             {/* Events Grid */}
             <section className="py-16 px-6">
                 <div className="max-w-6xl mx-auto">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {technicalEvents.map((event, index) => (
-                            <EventCard
-                                key={event.title}
-                                title={event.title}
-                                description={event.description}
-                                date={event.date}
-                                venue={event.venue}
-                                teamSize={event.teamSize}
-                                category="technical"
-                                index={index}
-                            />
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div className="flex justify-center py-20">
+                            <div className="w-8 h-8 border-2 border-royal-gold border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    ) : events.length === 0 ? (
+                        <div className="text-center py-20">
+                            <p className="text-neutral-light/40">No technical events available yet. Check back soon!</p>
+                        </div>
+                    ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {events.map((event, index) => (
+                                <EventCard
+                                    key={event.id}
+                                    title={event.title}
+                                    description={event.description}
+                                    date={event.date}
+                                    venue={event.venue}
+                                    teamSize={event.teamSize}
+                                    category="technical"
+                                    href={`/events/${event.id}`}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -125,10 +91,10 @@ export default function TechnicalEventsPage() {
                             Register now and secure your spot in ZENITH&apos;26 technical events.
                         </p>
                         <a
-                            href="/contact"
+                            href="/events"
                             className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
                         >
-                            Register Now
+                            Browse All Events
                         </a>
                     </motion.div>
                 </div>

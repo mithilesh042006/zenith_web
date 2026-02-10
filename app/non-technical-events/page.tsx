@@ -1,70 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
 import AnimatedBackground from "../components/AnimatedBackground";
-
-const nonTechnicalEvents = [
-    {
-        title: "Treasure Hunt",
-        description: "Follow cryptic clues across the campus to find hidden treasures. Team coordination and quick thinking are your best weapons.",
-        date: "March 15, 2026",
-        venue: "Campus",
-        teamSize: "4-5 members",
-    },
-    {
-        title: "IPL Auction",
-        description: "Build your dream cricket team within a budget. Strategy, negotiation, and cricket knowledge will determine the winner.",
-        date: "March 15, 2026",
-        venue: "Seminar Hall",
-        teamSize: "3-4 members",
-    },
-    {
-        title: "Photography Contest",
-        description: "Capture the essence of the symposium through your lens. Theme-based photography with prizes for the best shots.",
-        date: "March 15-16, 2026",
-        venue: "Campus",
-        teamSize: "Individual",
-    },
-    {
-        title: "Dance Battle",
-        description: "Show off your dance moves in this high-energy competition. Solo or group performances welcome across all dance styles.",
-        date: "March 16, 2026",
-        venue: "Main Stage",
-        teamSize: "1-8 members",
-    },
-    {
-        title: "Mime Act",
-        description: "Express without words. Perform a silent act that tells a story and captivates the audience.",
-        date: "March 16, 2026",
-        venue: "Auditorium",
-        teamSize: "1-4 members",
-    },
-    {
-        title: "Short Film Festival",
-        description: "Submit your short films and compete for the best director, actor, and overall film awards.",
-        date: "March 15, 2026",
-        venue: "AV Hall",
-        teamSize: "3-6 members",
-    },
-    {
-        title: "Stand-up Comedy",
-        description: "Make the audience laugh with your wit and humor. Original content gets bonus points!",
-        date: "March 16, 2026",
-        venue: "Open Air Theatre",
-        teamSize: "Individual",
-    },
-    {
-        title: "Gaming Arena",
-        description: "Compete in popular games like Valorant, FIFA, and BGMI. Show your gaming skills and claim victory.",
-        date: "March 15-16, 2026",
-        venue: "Gaming Zone",
-        teamSize: "Varies",
-    },
-];
+import { onEventsChange } from "@/lib/firebase/firestore";
+import { EventData } from "@/types/event";
 
 export default function NonTechnicalEventsPage() {
+    const [events, setEvents] = useState<EventData[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsub = onEventsChange((evts) => {
+            setEvents(evts);
+            setLoading(false);
+        }, "non-technical");
+        return () => unsub();
+    }, []);
+
     return (
         <main className="min-h-screen relative">
             <AnimatedBackground />
@@ -92,20 +47,31 @@ export default function NonTechnicalEventsPage() {
             {/* Events Grid */}
             <section className="py-16 px-6">
                 <div className="max-w-6xl mx-auto">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {nonTechnicalEvents.map((event, index) => (
-                            <EventCard
-                                key={event.title}
-                                title={event.title}
-                                description={event.description}
-                                date={event.date}
-                                venue={event.venue}
-                                teamSize={event.teamSize}
-                                category="non-technical"
-                                index={index}
-                            />
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div className="flex justify-center py-20">
+                            <div className="w-8 h-8 border-2 border-royal-gold border-t-transparent rounded-full animate-spin" />
+                        </div>
+                    ) : events.length === 0 ? (
+                        <div className="text-center py-20">
+                            <p className="text-neutral-light/40">No non-technical events available yet. Check back soon!</p>
+                        </div>
+                    ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {events.map((event, index) => (
+                                <EventCard
+                                    key={event.id}
+                                    title={event.title}
+                                    description={event.description}
+                                    date={event.date}
+                                    venue={event.venue}
+                                    teamSize={event.teamSize}
+                                    category="non-technical"
+                                    href={`/events/${event.id}`}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -125,10 +91,10 @@ export default function NonTechnicalEventsPage() {
                             Register now and showcase your talents at ZENITH&apos;26.
                         </p>
                         <a
-                            href="/contact"
+                            href="/events"
                             className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
                         >
-                            Register Now
+                            Browse All Events
                         </a>
                     </motion.div>
                 </div>
