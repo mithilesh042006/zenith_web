@@ -14,7 +14,7 @@ import {
     Unsubscribe,
 } from "firebase/firestore";
 import { db } from "./config";
-import { EventData, Registration, EventCategory } from "@/types/event";
+import { EventData, Registration, EventCategory, ContactMessage } from "@/types/event";
 
 // ==========================================
 // Events CRUD
@@ -195,3 +195,61 @@ export const onRegistrationCountChange = (
     );
 };
 
+// ==========================================
+// Contact Messages
+// ==========================================
+
+export const createMessage = async (msg: Omit<ContactMessage, "id" | "createdAt" | "read">) => {
+    try {
+        const docRef = await addDoc(collection(db, "messages"), {
+            ...msg,
+            read: false,
+            createdAt: serverTimestamp(),
+        });
+        return docRef.id;
+    } catch (error) {
+        console.error("Error sending message:", error);
+        throw error;
+    }
+};
+
+export const onMessagesChange = (
+    callback: (messages: ContactMessage[]) => void
+): Unsubscribe => {
+    return onSnapshot(
+        collection(db, "messages"),
+        (snapshot) => {
+            const messages = snapshot.docs.map(
+                (d) => ({ id: d.id, ...d.data() } as ContactMessage)
+            );
+            messages.sort((a, b) => {
+                const aTime = (a.createdAt as unknown as { seconds: number })?.seconds || 0;
+                const bTime = (b.createdAt as unknown as { seconds: number })?.seconds || 0;
+                return bTime - aTime;
+            });
+            callback(messages);
+        },
+        (error) => {
+            console.error("Messages listener error:", error);
+            callback([]);
+        }
+    );
+};
+
+export const markMessageRead = async (id: string) => {
+    try {
+        await updateDoc(doc(db, "messages", id), { read: true });
+    } catch (error) {
+        console.error("Error marking message read:", error);
+        throw error;
+    }
+};
+
+export const deleteMessage = async (id: string) => {
+    try {
+        await deleteDoc(doc(db, "messages", id));
+    } catch (error) {
+        console.error("Error deleting message:", error);
+        throw error;
+    }
+};

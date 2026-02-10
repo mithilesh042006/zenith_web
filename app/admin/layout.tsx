@@ -6,6 +6,7 @@ import { signOut } from "@/lib/firebase/auth";
 import {
     LayoutDashboard,
     Calendar,
+    Mail,
     LogOut,
     ChevronLeft,
 } from "lucide-react";
@@ -14,6 +15,7 @@ import AdminGuard from "@/components/admin/AdminGuard";
 const navItems = [
     { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/events", label: "Events", icon: Calendar },
+    { href: "/admin/messages", label: "Messages", icon: Mail },
 ];
 
 export default function AdminLayout({
@@ -56,8 +58,8 @@ export default function AdminLayout({
                                     key={item.href}
                                     href={item.href}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
-                                            ? "bg-royal-gold/10 text-royal-gold border border-royal-gold/20"
-                                            : "text-neutral-light/60 hover:text-neutral-light hover:bg-white/5"
+                                        ? "bg-royal-gold/10 text-royal-gold border border-royal-gold/20"
+                                        : "text-neutral-light/60 hover:text-neutral-light hover:bg-white/5"
                                         }`}
                                 >
                                     <item.icon size={18} />

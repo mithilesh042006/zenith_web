@@ -26,3 +26,14 @@ export interface Registration {
     teamMembers?: string[];
     registeredAt?: Timestamp;
 }
+
+export interface ContactMessage {
+    id?: string;
+    name: string;
+    email: string;
+    college: string;
+    subject: string;
+    message: string;
+    read: boolean;
+    createdAt?: Timestamp;
+}

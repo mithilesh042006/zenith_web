@@ -1,11 +1,45 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Clock, CheckCircle } from "lucide-react";
 import Footer from "../components/Footer";
 import AnimatedBackground from "../components/AnimatedBackground";
+import { createMessage } from "@/lib/firebase/firestore";
 
 export default function ContactPage() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        college: "",
+        subject: "",
+        message: "",
+    });
+    const [sending, setSending] = useState(false);
+    const [sent, setSent] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!formData.name || !formData.email || !formData.message) {
+            setError("Please fill in Name, Email, and Message.");
+            return;
+        }
+        setError("");
+        setSending(true);
+        try {
+            await createMessage(formData);
+            setSent(true);
+            setFormData({ name: "", email: "", college: "", subject: "", message: "" });
+            setTimeout(() => setSent(false), 4000);
+        } catch (err) {
+            console.error(err);
+            setError("Failed to send message. Please try again.");
+        } finally {
+            setSending(false);
+        }
+    };
+
     return (
         <main className="min-h-screen relative">
             <AnimatedBackground />
@@ -71,14 +105,14 @@ export default function ContactPage() {
                                                 href="tel:+919876543210"
                                                 className="text-neutral-light/60 hover:text-royal-gold transition-colors"
                                             >
-                                                +91 98765 43210
+                                                +91 9629287989
                                             </a>
                                             <br />
                                             <a
                                                 href="tel:+919876543211"
                                                 className="text-neutral-light/60 hover:text-royal-gold transition-colors"
                                             >
-                                                +91 98765 43211
+                                                +91 9894954524
                                             </a>
                                         </div>
                                     </div>
@@ -105,7 +139,7 @@ export default function ContactPage() {
                                         <div>
                                             <h3 className="font-semibold text-neutral-light">Event Date</h3>
                                             <p className="text-neutral-light/60">
-                                                March 15-16, 2026<br />
+                                                March 04, 2026<br />
                                                 9:00 AM - 6:00 PM
                                             </p>
                                         </div>
@@ -133,21 +167,37 @@ export default function ContactPage() {
                                 <h2 className="text-2xl font-bold font-display mb-6">
                                     Send us a Message
                                 </h2>
-                                <form className="space-y-6">
+
+                                {sent && (
+                                    <div className="mb-6 p-4 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center gap-3">
+                                        <CheckCircle className="text-green-400" size={20} />
+                                        <p className="text-green-400 text-sm">Message sent successfully! We&apos;ll get back to you soon.</p>
+                                    </div>
+                                )}
+
+                                {error && (
+                                    <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                                        <p className="text-red-400 text-sm">{error}</p>
+                                    </div>
+                                )}
+
+                                <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid sm:grid-cols-2 gap-4">
                                         <div>
                                             <label
                                                 htmlFor="name"
                                                 className="block text-sm font-medium text-neutral-light/80 mb-2"
                                             >
-                                                Name
+                                                Name *
                                             </label>
                                             <input
                                                 type="text"
                                                 id="name"
-                                                name="name"
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                                 className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                                 placeholder="Your name"
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -155,14 +205,16 @@ export default function ContactPage() {
                                                 htmlFor="email"
                                                 className="block text-sm font-medium text-neutral-light/80 mb-2"
                                             >
-                                                Email
+                                                Email *
                                             </label>
                                             <input
                                                 type="email"
                                                 id="email"
-                                                name="email"
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                                 className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                                 placeholder="your@email.com"
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -177,7 +229,8 @@ export default function ContactPage() {
                                         <input
                                             type="text"
                                             id="college"
-                                            name="college"
+                                            value={formData.college}
+                                            onChange={(e) => setFormData({ ...formData, college: e.target.value })}
                                             className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                             placeholder="Your college name"
                                         />
@@ -192,7 +245,8 @@ export default function ContactPage() {
                                         </label>
                                         <select
                                             id="subject"
-                                            name="subject"
+                                            value={formData.subject}
+                                            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                                             className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light focus:outline-none focus:border-royal-gold/50 transition-colors"
                                         >
                                             <option value="">Select a subject</option>
@@ -208,23 +262,35 @@ export default function ContactPage() {
                                             htmlFor="message"
                                             className="block text-sm font-medium text-neutral-light/80 mb-2"
                                         >
-                                            Message
+                                            Message *
                                         </label>
                                         <textarea
                                             id="message"
-                                            name="message"
                                             rows={4}
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                             className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors resize-none"
                                             placeholder="Your message..."
+                                            required
                                         />
                                     </div>
 
                                     <button
                                         type="submit"
-                                        className="w-full px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-royal-gold/30"
+                                        disabled={sending}
+                                        className="w-full px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-royal-gold/30 disabled:opacity-50 disabled:hover:scale-100"
                                     >
-                                        <Send size={20} />
-                                        Send Message
+                                        {sending ? (
+                                            <>
+                                                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                                Sending...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Send size={20} />
+                                                Send Message
+                                            </>
+                                        )}
                                     </button>
                                 </form>
                             </div>
