@@ -3,19 +3,21 @@
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
 import Footer from "../components/Footer";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 export default function ContactPage() {
     return (
-        <main className="min-h-screen bg-primary-black">
+        <main className="min-h-screen relative">
+            <AnimatedBackground />
             {/* Hero */}
-            <section className="pt-32 pb-16 px-6">
+            <section className="pt-32 pb-16 px-6 relative">
                 <div className="max-w-6xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center"
                     >
-                        <span className="text-sm uppercase tracking-[0.3em] text-accent-orange">
+                        <span className="text-sm uppercase tracking-[0.3em] text-royal-gold">
                             ZENITH&apos;26
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display mt-4 mb-6">
@@ -46,13 +48,13 @@ export default function ContactPage() {
                                 <div className="space-y-6">
                                     <div className="flex items-start gap-4">
                                         <div className="p-3 rounded-lg glass">
-                                            <Mail className="text-highlight-red" size={24} />
+                                            <Mail className="text-royal-gold" size={24} />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-neutral-light">Email</h3>
                                             <a
                                                 href="mailto:zenith@jeppiaar.ac.in"
-                                                className="text-neutral-light/60 hover:text-accent-orange transition-colors"
+                                                className="text-neutral-light/60 hover:text-royal-gold transition-colors"
                                             >
                                                 zenith@jeppiaar.ac.in
                                             </a>
@@ -61,20 +63,20 @@ export default function ContactPage() {
 
                                     <div className="flex items-start gap-4">
                                         <div className="p-3 rounded-lg glass">
-                                            <Phone className="text-highlight-red" size={24} />
+                                            <Phone className="text-royal-gold" size={24} />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-neutral-light">Phone</h3>
                                             <a
                                                 href="tel:+919876543210"
-                                                className="text-neutral-light/60 hover:text-accent-orange transition-colors"
+                                                className="text-neutral-light/60 hover:text-royal-gold transition-colors"
                                             >
                                                 +91 98765 43210
                                             </a>
                                             <br />
                                             <a
                                                 href="tel:+919876543211"
-                                                className="text-neutral-light/60 hover:text-accent-orange transition-colors"
+                                                className="text-neutral-light/60 hover:text-royal-gold transition-colors"
                                             >
                                                 +91 98765 43211
                                             </a>
@@ -83,7 +85,7 @@ export default function ContactPage() {
 
                                     <div className="flex items-start gap-4">
                                         <div className="p-3 rounded-lg glass">
-                                            <MapPin className="text-highlight-red" size={24} />
+                                            <MapPin className="text-royal-gold" size={24} />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-neutral-light">Address</h3>
@@ -98,7 +100,7 @@ export default function ContactPage() {
 
                                     <div className="flex items-start gap-4">
                                         <div className="p-3 rounded-lg glass">
-                                            <Clock className="text-highlight-red" size={24} />
+                                            <Clock className="text-royal-gold" size={24} />
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-neutral-light">Event Date</h3>
@@ -144,7 +146,7 @@ export default function ContactPage() {
                                                 type="text"
                                                 id="name"
                                                 name="name"
-                                                className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-highlight-red/50 transition-colors"
+                                                className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                                 placeholder="Your name"
                                             />
                                         </div>
@@ -159,7 +161,7 @@ export default function ContactPage() {
                                                 type="email"
                                                 id="email"
                                                 name="email"
-                                                className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-highlight-red/50 transition-colors"
+                                                className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                                 placeholder="your@email.com"
                                             />
                                         </div>
@@ -176,7 +178,7 @@ export default function ContactPage() {
                                             type="text"
                                             id="college"
                                             name="college"
-                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-highlight-red/50 transition-colors"
+                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors"
                                             placeholder="Your college name"
                                         />
                                     </div>
@@ -191,7 +193,7 @@ export default function ContactPage() {
                                         <select
                                             id="subject"
                                             name="subject"
-                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light focus:outline-none focus:border-highlight-red/50 transition-colors"
+                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light focus:outline-none focus:border-royal-gold/50 transition-colors"
                                         >
                                             <option value="">Select a subject</option>
                                             <option value="registration">Event Registration</option>
@@ -212,14 +214,14 @@ export default function ContactPage() {
                                             id="message"
                                             name="message"
                                             rows={4}
-                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-highlight-red/50 transition-colors resize-none"
+                                            className="w-full px-4 py-3 rounded-lg bg-deep-charcoal border border-white/10 text-neutral-light placeholder:text-neutral-light/40 focus:outline-none focus:border-royal-gold/50 transition-colors resize-none"
                                             placeholder="Your message..."
                                         />
                                     </div>
 
                                     <button
                                         type="submit"
-                                        className="w-full px-8 py-4 rounded-full bg-gradient-to-r from-highlight-red to-accent-orange text-white font-semibold text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-highlight-red/30"
+                                        className="w-full px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-royal-gold/30"
                                     >
                                         <Send size={20} />
                                         Send Message

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import EventCard from "../components/EventCard";
 import Footer from "../components/Footer";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const nonTechnicalEvents = [
     {
@@ -65,16 +66,17 @@ const nonTechnicalEvents = [
 
 export default function NonTechnicalEventsPage() {
     return (
-        <main className="min-h-screen bg-primary-black">
+        <main className="min-h-screen relative">
+            <AnimatedBackground />
             {/* Hero */}
-            <section className="pt-32 pb-16 px-6">
+            <section className="pt-32 pb-16 px-6 relative">
                 <div className="max-w-6xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center"
                     >
-                        <span className="text-sm uppercase tracking-[0.3em] text-accent-orange">
+                        <span className="text-sm uppercase tracking-[0.3em] text-royal-gold">
                             ZENITH&apos;26
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display mt-4 mb-6">
@@ -124,7 +126,7 @@ export default function NonTechnicalEventsPage() {
                         </p>
                         <a
                             href="/contact"
-                            className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-accent-orange to-yellow-500 text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-orange/30"
+                            className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-royal-gold to-gold-light text-black font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-royal-gold/30"
                         >
                             Register Now
                         </a>

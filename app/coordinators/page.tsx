@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import CoordinatorCard from "../components/CoordinatorCard";
 import Footer from "../components/Footer";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const staffCoordinators = [
     {
@@ -110,16 +111,17 @@ const studentCoordinators = [
 
 export default function CoordinatorsPage() {
     return (
-        <main className="min-h-screen bg-primary-black">
+        <main className="min-h-screen relative">
+            <AnimatedBackground />
             {/* Hero */}
-            <section className="pt-32 pb-16 px-6">
+            <section className="pt-32 pb-16 px-6 relative">
                 <div className="max-w-6xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center"
                     >
-                        <span className="text-sm uppercase tracking-[0.3em] text-accent-orange">
+                        <span className="text-sm uppercase tracking-[0.3em] text-royal-gold">
                             ZENITH&apos;26
                         </span>
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-display mt-4 mb-6">
