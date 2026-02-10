@@ -369,9 +369,10 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Technical Events Card */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, scale: 0.85, x: -40 }}
+              whileInView={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-50px" }}
             >
               <Link href="/technical-events" className="block group">
                 <div className="glass-card p-8 md:p-12 h-full transition-all duration-300 hover:shadow-xl hover:shadow-highlight-red/10 hover:border-highlight-red/30">
@@ -391,9 +392,10 @@ export default function Home() {
 
             {/* Non-Technical Events Card */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, scale: 0.85, x: 40 }}
+              whileInView={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-50px" }}
             >
               <Link href="/non-technical-events" className="block group">
                 <div className="glass-card p-8 md:p-12 h-full transition-all duration-300 hover:shadow-xl hover:shadow-accent-orange/10 hover:border-accent-orange/30">
