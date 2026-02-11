@@ -7,7 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import Link from "next/link";
 
-import AnimatedBackground from "./components/AnimatedBackground";
+import ScrollCanvas from "./components/ScrollCanvas";
 import KineticMarquee from "./components/KineticMarquee";
 import Countdown from "./components/Countdown";
 import Footer from "./components/Footer";
@@ -143,7 +143,7 @@ export default function Home() {
 
   return (
     <main className="relative">
-      <AnimatedBackground />
+      <ScrollCanvas />
 
       {/* Hero Section - reduced height for less gap */}
       <section ref={heroRef} className="relative min-h-[120vh]">
