@@ -135,8 +135,8 @@ export default function EventDetailPage() {
                             <div>
                                 <span
                                     className={`text-xs px-3 py-1 rounded-full border ${event.category === "technical"
-                                            ? "bg-blue-400/10 text-blue-400 border-blue-400/20"
-                                            : "bg-emerald-400/10 text-emerald-400 border-emerald-400/20"
+                                        ? "bg-blue-400/10 text-blue-400 border-blue-400/20"
+                                        : "bg-emerald-400/10 text-emerald-400 border-emerald-400/20"
                                         }`}
                                 >
                                     {event.category === "technical" ? "Technical" : "Non-Technical"}
@@ -192,6 +192,43 @@ export default function EventDetailPage() {
                                         ))}
                                     </ul>
                                 </div>
+                            )}
+
+                            {/* Event Coordinators */}
+                            {event.coordinators && event.coordinators.length > 0 && (
+                                <Link
+                                    href={`/events/${eventId}/coordinators`}
+                                    className="block bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-royal-gold/30 transition-all duration-300 group"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex -space-x-2">
+                                                {event.coordinators.slice(0, 3).map((coord, i) => (
+                                                    coord.photo ? (
+                                                        <div key={i} className="w-10 h-10 rounded-full overflow-hidden border-2 border-black">
+                                                            <img src={coord.photo} alt={coord.name} className="w-full h-full object-cover" />
+                                                        </div>
+                                                    ) : (
+                                                        <div key={i} className="w-10 h-10 rounded-full bg-royal-gold/10 border-2 border-black flex items-center justify-center">
+                                                            <Users size={14} className="text-royal-gold" />
+                                                        </div>
+                                                    )
+                                                ))}
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium text-neutral-light">
+                                                    Event Coordinator{event.coordinators.length > 1 ? "s" : ""}
+                                                </p>
+                                                <p className="text-xs text-neutral-light/40">
+                                                    {event.coordinators.map(c => c.name).join(", ")}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <span className="text-royal-gold text-sm font-medium group-hover:translate-x-1 transition-transform">
+                                            View →
+                                        </span>
+                                    </div>
+                                </Link>
                             )}
                         </motion.div>
 

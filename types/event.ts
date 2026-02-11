@@ -2,6 +2,13 @@ import { Timestamp } from "firebase/firestore";
 
 export type EventCategory = "technical" | "non-technical";
 
+export interface Coordinator {
+    name: string;
+    phone: string;
+    email: string;
+    photo: string;
+}
+
 export interface EventData {
     id?: string;
     title: string;
@@ -13,6 +20,7 @@ export interface EventData {
     venue: string;
     teamSize: string;
     registrationOpen: boolean;
+    coordinators?: Coordinator[];
     createdAt?: Timestamp;
 }
 
