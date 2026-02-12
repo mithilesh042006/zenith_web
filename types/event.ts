@@ -21,6 +21,7 @@ export interface EventData {
     teamSize: string;
     registrationOpen: boolean;
     coordinators?: Coordinator[];
+    staffCoordinators?: Coordinator[];
     createdAt?: Timestamp;
 }
 

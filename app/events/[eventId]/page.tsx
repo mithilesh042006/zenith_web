@@ -194,38 +194,81 @@ export default function EventDetailPage() {
                                 </div>
                             )}
 
-                            {/* Event Coordinators */}
-                            {event.coordinators && event.coordinators.length > 0 && (
+                            {/* Coordinators */}
+                            {((event.staffCoordinators && event.staffCoordinators.length > 0) || (event.coordinators && event.coordinators.length > 0)) && (
                                 <Link
                                     href={`/events/${eventId}/coordinators`}
                                     className="block bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-royal-gold/30 transition-all duration-300 group"
                                 >
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex -space-x-2">
-                                                {event.coordinators.slice(0, 3).map((coord, i) => (
-                                                    coord.photo ? (
-                                                        <div key={i} className="w-10 h-10 rounded-full overflow-hidden border-2 border-black">
-                                                            <img src={coord.photo} alt={coord.name} className="w-full h-full object-cover" />
-                                                        </div>
-                                                    ) : (
-                                                        <div key={i} className="w-10 h-10 rounded-full bg-royal-gold/10 border-2 border-black flex items-center justify-center">
-                                                            <Users size={14} className="text-royal-gold" />
-                                                        </div>
-                                                    )
-                                                ))}
+                                    <div className="space-y-4">
+                                        {/* Staff Coordinators */}
+                                        {event.staffCoordinators && event.staffCoordinators.length > 0 && (
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex -space-x-2">
+                                                        {event.staffCoordinators.slice(0, 3).map((coord, i) => (
+                                                            coord.photo ? (
+                                                                <div key={i} className="w-10 h-10 rounded-full overflow-hidden border-2 border-black">
+                                                                    <img src={coord.photo} alt={coord.name} className="w-full h-full object-cover" />
+                                                                </div>
+                                                            ) : (
+                                                                <div key={i} className="w-10 h-10 rounded-full bg-royal-gold/10 border-2 border-black flex items-center justify-center">
+                                                                    <Users size={14} className="text-royal-gold" />
+                                                                </div>
+                                                            )
+                                                        ))}
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-medium text-neutral-light">
+                                                            Staff Coordinator{event.staffCoordinators.length > 1 ? "s" : ""}
+                                                        </p>
+                                                        <p className="text-xs text-neutral-light/40">
+                                                            {event.staffCoordinators.map(c => c.name).join(", ")}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-neutral-light">
-                                                    Event Coordinator{event.coordinators.length > 1 ? "s" : ""}
-                                                </p>
-                                                <p className="text-xs text-neutral-light/40">
-                                                    {event.coordinators.map(c => c.name).join(", ")}
-                                                </p>
+                                        )}
+
+                                        {/* Divider if both exist */}
+                                        {event.staffCoordinators && event.staffCoordinators.length > 0 && event.coordinators && event.coordinators.length > 0 && (
+                                            <div className="border-t border-white/5" />
+                                        )}
+
+                                        {/* Event Coordinators */}
+                                        {event.coordinators && event.coordinators.length > 0 && (
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex -space-x-2">
+                                                        {event.coordinators.slice(0, 3).map((coord, i) => (
+                                                            coord.photo ? (
+                                                                <div key={i} className="w-10 h-10 rounded-full overflow-hidden border-2 border-black">
+                                                                    <img src={coord.photo} alt={coord.name} className="w-full h-full object-cover" />
+                                                                </div>
+                                                            ) : (
+                                                                <div key={i} className="w-10 h-10 rounded-full bg-royal-gold/10 border-2 border-black flex items-center justify-center">
+                                                                    <Users size={14} className="text-royal-gold" />
+                                                                </div>
+                                                            )
+                                                        ))}
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-medium text-neutral-light">
+                                                            Event Coordinator{event.coordinators.length > 1 ? "s" : ""}
+                                                        </p>
+                                                        <p className="text-xs text-neutral-light/40">
+                                                            {event.coordinators.map(c => c.name).join(", ")}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
+                                    </div>
+
+                                    {/* View arrow */}
+                                    <div className="flex justify-end mt-3">
                                         <span className="text-royal-gold text-sm font-medium group-hover:translate-x-1 transition-transform">
-                                            View →
+                                            View All →
                                         </span>
                                     </div>
                                 </Link>
