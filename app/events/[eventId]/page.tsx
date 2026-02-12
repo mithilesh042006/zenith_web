@@ -125,12 +125,12 @@ export default function EventDetailPage() {
                         Back to Events
                     </Link>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div className="space-y-8">
                         {/* Event Details */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="lg:col-span-3 space-y-6"
+                            className="space-y-6"
                         >
                             <div>
                                 <span
@@ -147,22 +147,35 @@ export default function EventDetailPage() {
                                 {event.title}
                             </h1>
 
-                            <div className="flex flex-wrap gap-4 text-sm text-neutral-light/60">
-                                <div className="flex items-center gap-1.5">
-                                    <Calendar size={14} className="text-royal-gold" />
-                                    {event.date}
+                            {/* Event Details Grid */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                                    <div className="flex items-center gap-2 text-royal-gold mb-1.5">
+                                        <Calendar size={16} />
+                                        <span className="text-xs font-medium uppercase tracking-wider">Date</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-light font-medium">{event.date}</p>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <Clock size={14} className="text-royal-gold" />
-                                    {event.time}
+                                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                                    <div className="flex items-center gap-2 text-royal-gold mb-1.5">
+                                        <Clock size={16} />
+                                        <span className="text-xs font-medium uppercase tracking-wider">Time</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-light font-medium">{event.time}</p>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <MapPin size={14} className="text-royal-gold" />
-                                    {event.venue}
+                                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                                    <div className="flex items-center gap-2 text-royal-gold mb-1.5">
+                                        <MapPin size={16} />
+                                        <span className="text-xs font-medium uppercase tracking-wider">Venue</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-light font-medium">{event.venue}</p>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <Users size={14} className="text-royal-gold" />
-                                    {event.teamSize}
+                                <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                                    <div className="flex items-center gap-2 text-royal-gold mb-1.5">
+                                        <Users size={16} />
+                                        <span className="text-xs font-medium uppercase tracking-wider">Participants</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-light font-medium">{event.teamSize}</p>
                                 </div>
                             </div>
 
@@ -280,9 +293,9 @@ export default function EventDetailPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="lg:col-span-2"
+                            className="max-w-4xl"
                         >
-                            <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 sticky top-24">
+                            <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6">
                                 <h2 className="text-lg font-semibold text-neutral-light mb-1">
                                     Register Now
                                 </h2>
