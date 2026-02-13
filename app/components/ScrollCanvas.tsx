@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 
 const FRAME_COUNT = 240;
 
-// Frame paths: ezgif-frame-001.jpg through ezgif-frame-240.jpg (1-indexed)
 const framePaths: string[] = Array.from(
     { length: FRAME_COUNT },
     (_, i) => `/bg_frame_720/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`
@@ -15,12 +14,21 @@ export default function ScrollCanvas() {
     const imagesRef = useRef<HTMLImageElement[]>([]);
     const currentFrameRef = useRef(0);
     const rafIdRef = useRef(0);
-    const [loaded, setLoaded] = useState(false);
 
-    // Draw a specific frame to canvas, covering the viewport (like background-size: cover)
+    const [loaded, setLoaded] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    /*
+        ✅ MOBILE CONTROLS (MAGIC ZONE)
+    */
+    const MOBILE_FOCAL_X = 0.62;
+    const MOBILE_FOCAL_Y = 0.5;
+    const MOBILE_SCALE = 0.88;   // ✅ ZOOM OUT CONTROL
+
     const drawFrame = useCallback((frameIndex: number) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
+
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
@@ -29,36 +37,68 @@ export default function ScrollCanvas() {
 
         const cw = canvas.width;
         const ch = canvas.height;
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
 
-        const imgRatio = img.naturalWidth / img.naturalHeight;
+        ctx.clearRect(0, 0, cw, ch);
+
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, cw, ch);
+
+        const imgRatio = iw / ih;
         const canvasRatio = cw / ch;
 
-        let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+        let dw: number, dh: number;
 
         if (imgRatio > canvasRatio) {
-            sw = img.naturalHeight * canvasRatio;
-            sx = (img.naturalWidth - sw) / 2;
+            dh = ch;
+            dw = ch * imgRatio;
         } else {
-            sh = img.naturalWidth / canvasRatio;
-            sy = (img.naturalHeight - sh) / 2;
+            dw = cw;
+            dh = cw / imgRatio;
         }
 
-        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+        const isMobile = window.innerWidth <= 768;
+
+        /*
+            ✅ APPLY MOBILE SCALE (ZOOM OUT)
+        */
+        if (isMobile) {
+            dw *= MOBILE_SCALE;
+            dh *= MOBILE_SCALE;
+        }
+
+        let dx: number, dy: number;
+
+        if (isMobile) {
+            dx = cw * 0.5 - dw * MOBILE_FOCAL_X;
+            dy = ch * 0.5 - dh * MOBILE_FOCAL_Y;
+        } else {
+            dx = (cw - dw) / 2;
+            dy = (ch - dh) / 2;
+        }
+
+        ctx.drawImage(img, dx, dy, dw, dh);
     }, []);
 
-    // Resize canvas to viewport
     const resize = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = `${window.innerWidth}px`;
-        canvas.style.height = `${window.innerHeight}px`;
+
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        const maxDpr = w <= 768 ? 1.5 : 2;
+        const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+
         drawFrame(currentFrameRef.current);
     }, [drawFrame]);
 
-    // Preload all images
     useEffect(() => {
         let cancelled = false;
         let loadedCount = 0;
@@ -66,39 +106,58 @@ export default function ScrollCanvas() {
 
         const onLoad = () => {
             loadedCount++;
-            if (loadedCount >= FRAME_COUNT && !cancelled) {
-                imagesRef.current = images;
-                setLoaded(true);
+            if (!cancelled) {
+                setProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
+
+                if (loadedCount >= FRAME_COUNT) {
+                    imagesRef.current = images;
+                    setLoaded(true);
+                }
             }
         };
 
-        for (let i = 0; i < FRAME_COUNT; i++) {
-            const img = new Image();
-            img.src = framePaths[i];
-            img.onload = onLoad;
-            img.onerror = onLoad;
-            images[i] = img;
-        }
+        const loadBatch = (start: number, end: number) => {
+            for (let i = start; i < end && i < FRAME_COUNT; i++) {
+                const img = new Image();
+                img.src = framePaths[i];
+                img.onload = onLoad;
+                img.onerror = onLoad;
+                images[i] = img;
+            }
+        };
 
-        return () => { cancelled = true; };
+        loadBatch(0, 30);
+
+        const timeout = setTimeout(() => {
+            loadBatch(30, FRAME_COUNT);
+        }, 100);
+
+        return () => {
+            cancelled = true;
+            clearTimeout(timeout);
+        };
     }, []);
 
-    // Scroll → frame mapping with smooth interpolation
     useEffect(() => {
         if (!loaded) return;
 
         resize();
-        window.addEventListener("resize", resize);
 
         let targetFrame = 0;
         let displayFrame = 0;
 
         const onScroll = () => {
             const scrollTop = window.scrollY;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const maxScroll =
+                document.documentElement.scrollHeight - window.innerHeight;
+
             if (maxScroll <= 0) return;
 
-            const scrollFraction = Math.min(Math.max(scrollTop / maxScroll, 0), 1);
+            const scrollFraction = Math.min(
+                Math.max(scrollTop / maxScroll, 0),
+                1
+            );
+
             targetFrame = Math.min(
                 Math.floor(scrollFraction * FRAME_COUNT),
                 FRAME_COUNT - 1
@@ -106,15 +165,19 @@ export default function ScrollCanvas() {
         };
 
         const render = () => {
-            // Lerp for smooth frame transitions
+            const isMobile = window.innerWidth <= 768;
+            const lerpFactor = isMobile ? 0.25 : 0.15;
+
             const diff = targetFrame - displayFrame;
+
             if (Math.abs(diff) > 0.5) {
-                displayFrame += diff * 0.15;
+                displayFrame += diff * lerpFactor;
             } else {
                 displayFrame = targetFrame;
             }
 
             const frameIdx = Math.round(displayFrame);
+
             if (frameIdx !== currentFrameRef.current) {
                 currentFrameRef.current = frameIdx;
                 drawFrame(frameIdx);
@@ -123,13 +186,14 @@ export default function ScrollCanvas() {
             rafIdRef.current = requestAnimationFrame(render);
         };
 
-        // Initial state
         onScroll();
         displayFrame = targetFrame;
         currentFrameRef.current = targetFrame;
         drawFrame(targetFrame);
 
+        window.addEventListener("resize", resize);
         window.addEventListener("scroll", onScroll, { passive: true });
+
         rafIdRef.current = requestAnimationFrame(render);
 
         return () => {
@@ -141,17 +205,26 @@ export default function ScrollCanvas() {
 
     return (
         <>
-            <canvas
-                ref={canvasRef}
-                className="fixed inset-0 -z-20 pointer-events-none"
-                aria-hidden="true"
-                style={{ willChange: "contents" }}
-            />
-            {/* Slight overlay for content readability */}
-            <div
-                className="fixed inset-0 -z-10 pointer-events-none bg-black/40"
-                aria-hidden="true"
-            />
+            {!loaded && (
+                <div className="fixed inset-0 -z-20 bg-black flex items-center justify-center">
+                    <div className="text-center">
+                        <div className="w-12 h-12 border-2 border-royal-gold/30 border-t-royal-gold rounded-full animate-spin mx-auto mb-3" />
+                        <p className="text-xs text-neutral-light/30">
+                            {progress}%
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            <div className="fixed inset-0 -z-20 pointer-events-none">
+                <canvas
+                    ref={canvasRef}
+                    className="block w-full h-full"
+                    style={{ willChange: "contents" }}
+                />
+            </div>
+
+            <div className="fixed inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/30 via-black/40 to-black/60 md:from-black/20 md:via-black/30 md:to-black/50" />
         </>
     );
 }
