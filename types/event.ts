@@ -20,6 +20,7 @@ export interface EventData {
     venue: string;
     teamSize: string;
     registrationOpen: boolean;
+    poster?: string;
     coordinators?: Coordinator[];
     staffCoordinators?: Coordinator[];
     createdAt?: Timestamp;

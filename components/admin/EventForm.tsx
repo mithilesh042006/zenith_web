@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { EventData, EventCategory, Coordinator } from "@/types/event";
-import { Save, Plus, X, Loader2, Upload, User, Users, Trash2 } from "lucide-react";
+import { Save, Plus, X, Loader2, Upload, User, Users, Trash2, ImageIcon } from "lucide-react";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import Image from "next/image";
 
@@ -22,8 +22,10 @@ export default function EventForm({
 }: EventFormProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const [uploadingIndex, setUploadingIndex] = useState<string | null>(null); // "coord-0", "staff-1", etc.
+    const [uploadingIndex, setUploadingIndex] = useState<string | null>(null);
+    const [uploadingPoster, setUploadingPoster] = useState(false);
     const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
+    const posterInputRef = useRef<HTMLInputElement | null>(null);
     const [formData, setFormData] = useState({
         title: initialData?.title || "",
         category: (initialData?.category || "technical") as EventCategory,
@@ -34,6 +36,7 @@ export default function EventForm({
         venue: initialData?.venue || "",
         teamSize: initialData?.teamSize || "",
         registrationOpen: initialData?.registrationOpen ?? true,
+        poster: initialData?.poster || "",
         coordinators: initialData?.coordinators?.length
             ? initialData.coordinators
             : [{ ...emptyCoordinator }],
@@ -128,6 +131,23 @@ export default function EventForm({
             alert("Failed to upload photo. Please try again.");
         } finally {
             setUploadingIndex(null);
+        }
+    };
+
+    const handlePosterUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) { alert("Please select an image file"); return; }
+        if (file.size > 10 * 1024 * 1024) { alert("Image must be less than 10MB"); return; }
+        setUploadingPoster(true);
+        try {
+            const url = await uploadToCloudinary(file);
+            setFormData((prev) => ({ ...prev, poster: url }));
+        } catch (error) {
+            console.error("Poster upload failed:", error);
+            alert("Failed to upload poster. Please try again.");
+        } finally {
+            setUploadingPoster(false);
         }
     };
 
@@ -304,6 +324,72 @@ export default function EventForm({
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6 w-full">
+            {/* Event Poster */}
+            <div>
+                <label className={labelClass}>
+                    Event Poster
+                </label>
+                <div className="border border-white/10 rounded-xl p-4 bg-white/[0.02]">
+                    {formData.poster ? (
+                        <div className="relative">
+                            <div className="relative w-full h-48 rounded-lg overflow-hidden">
+                                <Image
+                                    src={formData.poster}
+                                    alt="Event poster"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div className="flex gap-2 mt-3">
+                                <button
+                                    type="button"
+                                    onClick={() => posterInputRef.current?.click()}
+                                    className="flex items-center gap-1.5 text-sm text-royal-gold hover:text-gold-light transition-colors"
+                                >
+                                    <Upload size={14} />
+                                    Change Poster
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData((prev) => ({ ...prev, poster: "" }))}
+                                    className="flex items-center gap-1.5 text-sm text-red-400 hover:text-red-300 transition-colors"
+                                >
+                                    <Trash2 size={14} />
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={() => posterInputRef.current?.click()}
+                            disabled={uploadingPoster}
+                            className="w-full h-40 rounded-lg border-2 border-dashed border-white/10 hover:border-royal-gold/30 transition-colors flex flex-col items-center justify-center gap-2 text-neutral-light/40 hover:text-neutral-light/60"
+                        >
+                            {uploadingPoster ? (
+                                <>
+                                    <Loader2 size={24} className="animate-spin text-royal-gold" />
+                                    <span className="text-sm">Uploading…</span>
+                                </>
+                            ) : (
+                                <>
+                                    <ImageIcon size={28} />
+                                    <span className="text-sm">Click to upload event poster</span>
+                                    <span className="text-xs text-neutral-light/30">PNG, JPG up to 10MB</span>
+                                </>
+                            )}
+                        </button>
+                    )}
+                    <input
+                        ref={posterInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handlePosterUpload}
+                    />
+                </div>
+            </div>
+
             {/* Title */}
             <div>
                 <label htmlFor="title" className={labelClass}>

@@ -6,7 +6,7 @@ const FRAME_COUNT = 240;
 
 const framePaths: string[] = Array.from(
     { length: FRAME_COUNT },
-    (_, i) => `/bg_frame_720/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`
+    (_, i) => `/bg_frame_bk/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`
 );
 
 export default function ScrollCanvas() {

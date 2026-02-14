@@ -179,6 +179,17 @@ export default function EventDetailPage() {
                                 </div>
                             </div>
 
+                            {/* Event Poster */}
+                            {event.poster && (
+                                <div className="rounded-xl overflow-hidden border border-white/10">
+                                    <img
+                                        src={event.poster}
+                                        alt={`${event.title} poster`}
+                                        className="w-full h-auto object-cover"
+                                    />
+                                </div>
+                            )}
+
                             <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6">
                                 <h2 className="text-lg font-semibold text-neutral-light mb-3">
                                     About the Event
